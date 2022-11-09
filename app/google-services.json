@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "257718596944",
+    "project_id": "batallanavalkt",
+    "storage_bucket": "batallanavalkt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257718596944:android:f53ad14681ba0877c0a855",
+        "android_client_info": {
+          "package_name": "com.proyectofinal.batallanavalkt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257718596944-8e0vf654s3qge8r261gr5nklp99crmmd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALTy3FMoF1ciRJNdMxrQjgM85ugE6QLZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257718596944-8e0vf654s3qge8r261gr5nklp99crmmd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BatallaNavalKT</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_user_info">UserInfo</string>
+    <string name="title_activity_lobby">Lobby</string>
+    <string name="title_activity_multiplayer_game">MultiplayerGame</string>
+    <string name="title_activity_menu">Menu</string>
+</resources>
