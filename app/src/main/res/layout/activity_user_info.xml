@@ -5,21 +5,18 @@
     android:layout_height="match_parent"
     android:background="?attr/fullscreenBackgroundColor"
     android:theme="@style/ThemeOverlay.BatallaNavalKT.FullscreenContainer"
-    tools:context=".UserInfo">
+    tools:context=".Activitys.UserInfo">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
+
     <TextView
-        android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/dummy_content"
-        android:textColor="?attr/fullscreenTextColor"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:text="userprofile"
+        android:textSize="50dp"/>
+
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
@@ -36,6 +33,16 @@
             android:layout_gravity="bottom|center_horizontal"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
+            <TextView
+                android:id="@+id/fullscreen_content"
+                android:layout_width="75dp"
+                android:layout_height="49dp"
+                android:gravity="center"
+                android:keepScreenOn="true"
+                android:text="tools"
+                android:textColor="?attr/fullscreenTextColor"
+                android:textSize="50sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/dummy_button"
@@ -46,6 +53,7 @@
                 android:text="@string/dummy_button" />
 
         </LinearLayout>
+
     </FrameLayout>
 
 </FrameLayout>

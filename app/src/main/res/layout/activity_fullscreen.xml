@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/fullscreenBackgroundColor"
     android:theme="@style/ThemeOverlay.BatallaNavalKT.FullscreenContainer"
-    tools:context=".FullscreenActivity">
+    tools:context=".Activitys.FullscreenActivity">
 
     <VideoView
         android:id="@+id/backgroundvideo"

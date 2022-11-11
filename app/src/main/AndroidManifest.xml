@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <application
         android:allowBackup="true"
@@ -11,42 +11,49 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BatallaNavalKT"
-        tools:targetApi="31">
+        tools:targetApi="31" >
         <activity
-            android:name=".Menu"
+            android:name=".Activitys.SoloGame"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
+            android:label="@string/title_activity_solo_game"
             android:screenOrientation="landscape"
-            android:label="@string/title_activity_menu"
             android:theme="@style/Theme.BatallaNavalKT.Fullscreen" />
         <activity
-            android:name=".MultiplayerGame"
+            android:name=".Activitys.Menu"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:label="@string/title_activity_menu"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.BatallaNavalKT.Fullscreen" />
+        <activity
+            android:name=".Activitys.MultiplayerGame"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/title_activity_multiplayer_game"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.BatallaNavalKT.Fullscreen" />
         <activity
-            android:name=".Lobby"
+            android:name=".Activitys.Lobby"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/title_activity_lobby"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.BatallaNavalKT.Fullscreen" />
         <activity
-            android:name=".UserInfo"
+            android:name=".Activitys.UserInfo"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/title_activity_user_info"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.BatallaNavalKT.Fullscreen" />
         <activity
-            android:name=".FullscreenActivity"
+            android:name=".Activitys.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.BatallaNavalKT.Fullscreen">
+            android:theme="@style/Theme.BatallaNavalKT.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
