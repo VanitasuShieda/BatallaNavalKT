@@ -1,37 +1,66 @@
 package com.proyectofinal.batallanavalkt.Activitys
 
-import androidx.appcompat.app.AppCompatActivity
-import android.annotation.SuppressLint
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.SoundPool
+import android.os.*
+import android.view.View
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import android.annotation.SuppressLint
+import android.app.Dialog
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.view.MotionEvent
-import android.view.View
 import android.view.WindowInsets
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.proyectofinal.batallanavalkt.R
+import com.proyectofinal.batallanavalkt.adapters.AdaptadorCuadrante
 import com.proyectofinal.batallanavalkt.databinding.ActivitySoloGameBinding
 import com.proyectofinal.batallanavalkt.dialogs.DialogDecideTurn
+import com.proyectofinal.batallanavalkt.dialogs.DialogDuelTurn
+import com.proyectofinal.batallanavalkt.dialogs.DialogSelectNaves
+import com.proyectofinal.batallanavalkt.dialogs.DialogSetNaves
 import com.proyectofinal.batallanavalkt.models.Player
+import java.io.File
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
-class SoloGame : AppCompatActivity() {
 
-private lateinit var binding: ActivitySoloGameBinding
+class SoloGame : AppCompatActivity(), DialogDuelTurn.DialogDuelTurnListener,
+    DialogDecideTurn.DialogDecideTurnListener, DialogSelectNaves.selectNavesListener, DialogSetNaves.setNavesListener {
+
+    private lateinit var binding: ActivitySoloGameBinding
     private lateinit var fullscreenContent: TextView
     private lateinit var fullscreenContentControls: LinearLayout
     private val hideHandler = Handler(Looper.myLooper()!!)
 
     private var player1 = Player()
     private var player2 = Player()
+    private var usermail = ""
+    private var boxing: Int = 0
+
+    private val auth = Firebase.auth
+    private var db = FirebaseFirestore.getInstance()
+    private var bitmap: Bitmap? = null
+    private lateinit var mStorage: FirebaseStorage
+    private lateinit var mReference: StorageReference
 
     private lateinit var audioAttributes: AudioAttributes
     private lateinit var sp: SoundPool
@@ -90,11 +119,13 @@ private lateinit var binding: ActivitySoloGameBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-     binding = ActivitySoloGameBinding.inflate(layoutInflater)
+        binding = ActivitySoloGameBinding.inflate(layoutInflater)
+        intent.getStringExtra("User")?.let { usermail = it }
+
      setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        intent.getStringExtra("User")?.let { usermail = it }
         isFullscreen = true
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -108,7 +139,20 @@ private lateinit var binding: ActivitySoloGameBinding
         // while interacting with the UI.
         binding.dummyButton.setOnTouchListener(delayHideTouchListener)
 
+        //PREPARATIVOS==========================================================================================================
 
+        mStorage = FirebaseStorage.getInstance()
+        mReference = mStorage.reference
+        val imgRef = mReference.child("images/$usermail")
+        val localfile = File.createTempFile("tempImg", "jpg")
+        imgRef.getFile(localfile).addOnSuccessListener {
+            bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+        }
+        val currentUser = auth.currentUser
+        usermail= currentUser?.email.toString()
+
+        print(usermail)
+//
 
         player2.setNickname("CPU")
         audioAttributes =
@@ -118,10 +162,77 @@ private lateinit var binding: ActivitySoloGameBinding
         sp = SoundPool.Builder().setMaxStreams(6).setAudioAttributes(audioAttributes).build()
 
 
+
+
+        val decideNaves = DialogSelectNaves(this, player1)
+        decideNaves.isCancelable = false
+        decideNaves.show(supportFragmentManager, "Decidir Naves")
+
+
+    }//end on create
+
+    override fun applyNaves(player: Player) {
+        this.player1 = player
+        val setNaves = DialogSetNaves(this, player1)
+        setNaves.isCancelable = false
+        setNaves.show(supportFragmentManager, "Set Naves")
+    }
+
+    override fun applyNavesSet(player: Player) {
+        this.player1 = player
         val decideTurnDialog = DialogDecideTurn(this, player1)
         decideTurnDialog.isCancelable = false
         decideTurnDialog.show(supportFragmentManager, "Decidir turno")
-    }//end on create
+    }
+
+
+    override fun applyDecideTurn(player: Player) {
+        sp.play(boxing, 0.3f, 0.3f, 1, 0, 1f)
+        this.player1 = player
+        player2.setPpt((0..2).random())
+
+        val duelTurnDialog = DialogDuelTurn(this, player1, player2)
+        duelTurnDialog.isCancelable = false
+        duelTurnDialog.show(supportFragmentManager, "Decidir turno")
+
+    }
+
+    override fun applyDuelTurn(player1: Player, player2: Player, isDraw: Boolean) {
+        this.player1 = player1
+        this.player2 = player2
+        //Si hay empate en el piedra, papael o tijeras se repite el juego
+        if (isDraw == true) {
+            val decideTurnDialog = DialogDecideTurn(this, player1)
+            decideTurnDialog.isCancelable = false
+            decideTurnDialog.show(supportFragmentManager, "Decidir turno")
+        } else {
+            startGame()
+        }
+    }
+
+    fun startGame(){
+        binding.tablero.visibility = View.VISIBLE
+        binding.crono.base = SystemClock.elapsedRealtime()
+
+
+        binding.btnendgame.setOnClickListener {
+            //Finalizar y cargar
+            startActivity(Intent(this, Menu::class.java))
+            finish()
+        }
+
+        var tablero1 = AdaptadorCuadrante(player1){
+            val items: RecyclerView = binding.recViewMytab
+            items.setHasFixedSize(true)
+        }
+        binding.recViewMytab.layoutManager = GridLayoutManager(this, 10)
+        binding.recViewMytab.adapter = tablero1
+
+
+        binding.crono.start()
+
+
+    }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)

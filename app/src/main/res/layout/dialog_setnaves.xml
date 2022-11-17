@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tablero"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bgmenuall"
+    android:theme="@style/ThemeOverlay.BatallaNavalKT.FullscreenContainer"
+    android:visibility="visible"
+    tools:context=".Activitys.dialogs.DialogSetNaves">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutPA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/namenave1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mika"
+                android:text="Porta Aviones"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:src="@drawable/portaaviones"
+                app:layout_constraintBottom_toTopOf="@+id/cantidadnave1"
+                app:layout_constraintTop_toBottomOf="@+id/namenave1"
+                app:layout_constraintVertical_bias="1.0"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <TextView
+                android:id="@+id/cantidadnave1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:fontFamily="@font/mika"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/layoutPA">
+
+            <TextView
+                android:id="@+id/namenave2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mika"
+                android:text="Buques"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:src="@drawable/buqe"
+                app:layout_constraintBottom_toTopOf="@+id/cantidadnave2"
+                app:layout_constraintTop_toBottomOf="@+id/namenave2"
+                app:layout_constraintVertical_bias="1.0"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <TextView
+                android:id="@+id/cantidadnave2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:fontFamily="@font/mika"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutSB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/layoutB">
+
+            <TextView
+                android:id="@+id/namenave3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mika"
+                android:text="Submarinos"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:src="@drawable/submarino"
+                app:layout_constraintBottom_toTopOf="@+id/cantidadnave3"
+                app:layout_constraintTop_toBottomOf="@+id/namenave3"
+                app:layout_constraintVertical_bias="1.0"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <TextView
+                android:id="@+id/cantidadnave3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:fontFamily="@font/mika"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/layoutSB">
+
+            <TextView
+                android:id="@+id/namenave4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mika"
+                android:text="Cruseros"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:src="@drawable/crucero"
+                app:layout_constraintBottom_toTopOf="@+id/cantidadnave4"
+                app:layout_constraintTop_toBottomOf="@+id/namenave4"
+                app:layout_constraintVertical_bias="1.0"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <TextView
+                android:id="@+id/cantidadnave4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:fontFamily="@font/mika"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/layoutC">
+
+            <TextView
+                android:id="@+id/namenave5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mika"
+                android:text="Lanchas"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:src="@drawable/lancha"
+                app:layout_constraintBottom_toTopOf="@+id/cantidadnave5"
+                app:layout_constraintTop_toBottomOf="@+id/namenave5"
+                app:layout_constraintVertical_bias="1.0"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <TextView
+                android:id="@+id/cantidadnave5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:fontFamily="@font/mika"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/TxtGirar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mika"
+            android:text="Girar Nave"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="3dp" />
+
+        <TextView
+            android:id="@+id/txtiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:fontFamily="@font/mika"
+            android:text=" Izquierda"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TxtGirar" />
+
+        <TextView
+            android:id="@+id/txtder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="1dp"
+            android:fontFamily="@font/mika"
+            android:text="Derecha"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/txtiz"
+            app:layout_constraintTop_toBottomOf="@+id/TxtGirar" />
+
+        <ImageButton
+            android:id="@+id/izquierda"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/izquierda"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="@+id/txtiz"
+            app:layout_constraintStart_toStartOf="@+id/txtiz"
+            app:layout_constraintTop_toBottomOf="@+id/txtiz" />
+
+        <ImageButton
+            android:id="@+id/derecha"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/derecha"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="@+id/txtder"
+            app:layout_constraintStart_toStartOf="@+id/txtder"
+            app:layout_constraintTop_toBottomOf="@+id/txtder" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutPad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+
+        <TextView
+            android:id="@+id/txtpad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/mika"
+            android:text="Mover Nave"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtpad">
+
+            <TableRow>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/pad_1" />
+
+                <ImageButton
+                    android:id="@+id/padarriba"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/pad_2" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/pad_3" />
+            </TableRow>
+
+            <TableRow>
+
+                <ImageButton
+                    android:id="@+id/padizquierda"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/pad_4" />
+
+                <ImageButton
+                    android:id="@+id/padset"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/pad_5" />
+
+                <ImageButton
+                    android:id="@+id/padderecha"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/pad_6" />
+            </TableRow>
+
+            <TableRow>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/pad_7" />
+
+                <ImageButton
+                    android:id="@+id/padabajo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/pad_8" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/pad_9" />
+            </TableRow>
+        </TableLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/p1"
+            android:layout_width="29dp"
+            android:layout_height="11dp"
+            android:layout_marginStart="21dp"
+            android:fontFamily="@font/mika"
+            android:text="1"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/p2"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="2"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p1" />
+
+        <TextView
+            android:id="@+id/p3"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="3"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p2" />
+
+        <TextView
+            android:id="@+id/p4"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="4"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p3" />
+
+        <TextView
+            android:id="@+id/p5"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="5"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p4" />
+
+        <TextView
+            android:id="@+id/p6"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="6"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p5" />
+
+        <TextView
+            android:id="@+id/p7"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="7"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p6" />
+
+        <TextView
+            android:id="@+id/p8"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="8"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p7" />
+
+        <TextView
+            android:id="@+id/p9"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="9"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p8" />
+
+        <TextView
+            android:id="@+id/p10"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="10"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p9" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recView_mytab"
+            android:layout_width="300dp"
+            android:layout_height="280dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/bgmar"
+            app:layout_constraintHorizontal_bias="0.892"
+            app:layout_constraintStart_toStartOf="@+id/p1"
+            app:layout_constraintTop_toBottomOf="@+id/p2"
+            app:layout_constraintVertical_bias="0.0"></androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id='@+id/l1'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='A'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/p1' />'
+
+        <TextView
+            android:id='@+id/l2'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='B'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l1' />'
+
+        <TextView
+            android:id='@+id/l3'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='C'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l2' />'
+
+        <TextView
+            android:id='@+id/l4'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='D'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l3' />'
+
+        <TextView
+            android:id='@+id/l5'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='E'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l4' />'
+
+        <TextView
+            android:id='@+id/l6'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='F'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l5' />'
+
+        <TextView
+            android:id='@+id/l7'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='G'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l6' />'
+
+        <TextView
+            android:id='@+id/l8'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='H'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l7' />'
+
+        <TextView
+            android:id='@+id/l9'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='I'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l8' />'
+
+        <TextView
+            android:id='@+id/l10'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='J'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l9' />'
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout"
+        app:layout_constraintTop_toBottomOf="@+id/layoutPad">
+
+        <TextView
+            android:id="@+id/txtColocar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/mika"
+            android:text="Colocar Nave"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/setnave"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/setnave"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtColocar" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

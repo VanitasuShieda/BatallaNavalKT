@@ -6,7 +6,6 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.Image
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler

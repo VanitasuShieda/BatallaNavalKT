@@ -23,6 +23,7 @@ class Menu : AppCompatActivity() {
 
     private lateinit var binding: ActivityMenuBinding
     private lateinit var fullscreenContent: TextView
+    private var email = ""
     private lateinit var fullscreenContentControls: LinearLayout
     private val hideHandler = Handler(Looper.myLooper()!!)
 
@@ -81,6 +82,7 @@ class Menu : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMenuBinding.inflate(layoutInflater)
+        intent.getStringExtra("User")?.let { email = it }
         setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -100,6 +102,7 @@ class Menu : AppCompatActivity() {
 
         binding.btnplaygame.setOnClickListener {
             startActivity(Intent(this, SoloGame::class.java))
+            intent.putExtra("User", email)
             finish()
         }
 

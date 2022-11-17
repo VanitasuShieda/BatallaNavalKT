@@ -1,26 +1,17 @@
-package com.proyectofinal.batallanavalkt.Dialogs
+package com.proyectofinal.batallanavalkt.dialogs
 
-
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.proyectofinal.batallanavalkt.Activitys.FullscreenActivity
 import com.proyectofinal.batallanavalkt.R
 import com.proyectofinal.batallanavalkt.databinding.DialogLoginBinding
 
 class dialogLogin : DialogFragment() {
     private lateinit var listener: dialogLoginListener
-    var positiveButton: Button? = null
+
 
     interface dialogLoginListener {
         fun applyLogin(email: String, pass: String)

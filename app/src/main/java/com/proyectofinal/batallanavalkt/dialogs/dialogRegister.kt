@@ -1,4 +1,4 @@
-package com.proyectofinal.batallanavalkt.Dialogs
+package com.proyectofinal.batallanavalkt.dialogs
 
 import android.app.Dialog
 import android.content.Context
@@ -8,9 +8,6 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment

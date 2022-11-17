@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="anim_length">500</integer>
+    <integer name="anim_length_half">250</integer>
+    <declare-styleable name="easy_flip_view">
+        <attr format="boolean" name="flipOnTouch"/>
+        <attr format="integer" name="flipDuration"/>
+        <attr format="string" name="flipType"/>
+        <attr format="string" name="flipFrom"/>
+        <attr format="boolean" name="flipEnabled"/>
+        <attr format="boolean" name="flipOnceEnabled"/>
+        <attr format="boolean" name="autoFlipBack"/>
+        <attr format="integer" name="autoFlipBackTime"/>
+        <attr format="reference" name="animFlipInId"/>
+        <attr format="reference" name="animFlipOutId"/>
+    </declare-styleable>
+</resources>

@@ -13,18 +13,16 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowInsets
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.proyectofinal.batallanavalkt.Dialogs.dialogLogin
 import com.proyectofinal.batallanavalkt.databinding.ActivityFullscreenBinding
-import com.proyectofinal.batallanavalkt.Dialogs.dialogRegister
 import com.proyectofinal.batallanavalkt.R
-import com.proyectofinal.batallanavalkt.databinding.DialogLoginBinding
 import com.proyectofinal.batallanavalkt.databinding.DialogRegisterBinding
+import com.proyectofinal.batallanavalkt.dialogs.dialogLogin
+import com.proyectofinal.batallanavalkt.dialogs.dialogRegister
 import com.proyectofinal.batallanavalkt.models.User
 import java.util.*
 
@@ -32,7 +30,7 @@ import java.util.*
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class FullscreenActivity : AppCompatActivity(),dialogLogin.dialogLoginListener, dialogRegister.dialgRegisterListener{
+class FullscreenActivity : AppCompatActivity(), dialogLogin.dialogLoginListener, dialogRegister.dialgRegisterListener{
 
     private lateinit var binding: ActivityFullscreenBinding
     private lateinit var fullscreenContent: TextView

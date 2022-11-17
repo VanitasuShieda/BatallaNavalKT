@@ -71,7 +71,7 @@ class DialogDecideTurn (context: Context, private val player: Player): DialogFra
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
             throw ClassCastException((context.toString() +
-                    " must implementDialogSelectMonsterListener"))
+                    "must DialogDecideTurnListener"))
         }
     }
     fun onItemSelect(button: ImageView, buttonNotSelected1: ImageView, buttonNotSelected2: ImageView){
