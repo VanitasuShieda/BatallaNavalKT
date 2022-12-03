@@ -38,127 +38,43 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
     private var isSelect = false
     private var direccion = "Horizontal"
     private var angle = 0
+    var a = 0
+    var b = 0
+    var c = 0
+    var d = 0
 
     private var arrayPA = arrayOf(
-        6,
-        7,
-        8,
-        9,
-        10,
-        16,
-        17,
-        18,
-        19,
-        20,
-        26,
-        27,
-        28,
-        29,
-        30,
-        36,
-        37,
-        38,
-        39,
-        40,
-        46,
-        47,
-        48,
-        49,
-        50,
-        56,
-        57,
-        58,
-        59,
-        60,
-        66,
-        67,
-        68,
-        69,
-        70,
-        76,
-        77,
-        78,
-        79,
-        80,
-        86,
-        87,
-        88,
-        89,
-        90,
-        96,
-        97,
-        98,
-        99
+        6, 7, 8, 9, 16, 17, 18, 19,
+        26, 27, 28, 29, 36, 37, 38, 39,
+        46, 47, 48, 49, 56, 57, 58, 59,
+        66, 67, 68, 69, 76, 77, 78, 79,
+        86, 87, 88, 89, 96, 97, 98, 99
     )
     private var arrayB = arrayOf(
-        7,
-        8,
-        9,
-        10,
-        17,
-        18,
-        19,
-        20,
-        27,
-        28,
-        29,
-        30,
-        37,
-        38,
-        39,
-        40,
-        47,
-        48,
-        49,
-        50,
-        57,
-        58,
-        59,
-        60,
-        67,
-        68,
-        69,
-        70,
-        77,
-        78,
-        79,
-        80,
-        87,
-        88,
-        89,
-        90,
-        97,
-        98,
-        99
+        7, 8, 9, 17, 18, 19, 27, 28, 29,
+        37, 38, 39, 47, 48, 49, 57, 58, 59,
+        67, 68, 69, 77, 78, 79, 87, 88, 89,
+        97, 98, 99
     )
     private var arraySB = arrayOf(
         8,
         9,
-        10,
         18,
         19,
-        20,
         28,
         29,
-        30,
         38,
         39,
-        40,
         48,
         49,
-        50,
         58,
         59,
-        60,
         68,
         69,
-        70,
         78,
         79,
-        80,
         88,
         89,
-        90,
         98,
         99
     )
@@ -174,8 +90,11 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
 
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater;
-            //vínculo con el layout selectmonsters_dialog.xml
+
             val binding = inflater.inflate(R.layout.dialog_setnaves, null)
+            val items: RecyclerView = binding.findViewById(R.id.recView_mytab)
+            val setnave = binding.findViewById<ImageButton>(R.id.setnave)
+
             val lPA =
                 binding.findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.layoutPA)
             val lSB =
@@ -197,13 +116,9 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
             val cL = binding.findViewById<TextView>(R.id.cantidadnave5)
             cL.text = cantL.toString()
 
-            val items: RecyclerView = binding.findViewById(R.id.recView_mytab)
-            val setnave = binding.findViewById<ImageButton>(R.id.setnave)
-            setnave.visibility = View.INVISIBLE
-
 
             //Se crea el adaptador y se define el evento de click (para seleccionar al monstruo)
-            val adaptador = AdaptadorCuadrante(player) {
+            val adaptador = AdaptadorCuadrante(player, 1) {
                 //Se asigna el evento click que selecciona una imagen
                 pos = it
                 onItemSelect(it, binding, player)
@@ -241,7 +156,7 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
 
             lPA.setOnClickListener {
                 if (cantPA != 0) {
-                    angle = 0
+                    reset(binding)
                     if (it.background == null) {
                         it.setBackgroundResource(R.drawable.seleccionado)
                         selectName = "PA"
@@ -256,18 +171,12 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                         it.background = null
                         selectName = ""
                     }
-                    for (i in 0 until items.size) {
-                        items[i].background = null
-                        if (!player.getMyTablero()[i].isnave)
-                            items[i].findViewById<ImageView>(R.id.itemmarnave).background = null
-                    }
-                    setnave.visibility = View.INVISIBLE
+
                 }
             }
             lB.setOnClickListener {
-
                 if (cantB != 0) {
-                    angle = 0
+                    reset(binding)
                     if (it.background == null) {
                         it.setBackgroundResource(R.drawable.seleccionado)
                         selectName = "B"
@@ -282,19 +191,12 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                         it.background = null
                         selectName = ""
                     }
-                    for (i in 0 until items.size) {
-                        items[i].background = null
-                        if (!player.getMyTablero()[i].isnave)
-                            items[i].findViewById<ImageView>(R.id.itemmarnave).background = null
-                    }
-                    setnave.visibility = View.INVISIBLE
                 }
 
             }
             lSB.setOnClickListener {
-
                 if (cantSB != 0) {
-                    angle = 0
+                    reset(binding)
                     if (it.background == null) {
                         it.setBackgroundResource(R.drawable.seleccionado)
                         selectName = "SB"
@@ -310,17 +212,11 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                         it.background = null
                         selectName = ""
                     }
-                    for (i in 0 until items.size) {
-                        items[i].background = null
-                        if (!player.getMyTablero()[i].isnave)
-                            items[i].findViewById<ImageView>(R.id.itemmarnave).background = null
-                    }
-                    setnave.visibility = View.INVISIBLE
                 }
             }
             lC.setOnClickListener {
                 if (cantC != 0) {
-                    angle = 0
+                    reset(binding)
                     if (it.background == null) {
                         it.setBackgroundResource(R.drawable.seleccionado)
                         selectName = "C"
@@ -335,17 +231,11 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                         it.background = null
                         selectName = ""
                     }
-                    for (i in 0 until items.size) {
-                        items[i].background = null
-                        if (!player.getMyTablero()[i].isnave)
-                            items[i].findViewById<ImageView>(R.id.itemmarnave).background = null
-                    }
-                    setnave.visibility = View.INVISIBLE
                 }
             }
             lL.setOnClickListener {
                 if (cantL != 0) {
-                    angle = 0
+                    reset(binding)
                     if (it.background == null) {
                         it.setBackgroundResource(R.drawable.seleccionado)
                         selectName = "L"
@@ -360,24 +250,21 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                         it.background = null
                         selectName = ""
                     }
-                    for (i in 0 until items.size) {
-                        items[i].background = null
-                        if (!player.getMyTablero()[i].isnave)
-                            items[i].findViewById<ImageView>(R.id.itemmarnave).background = null
-                    }
-                    setnave.visibility = View.INVISIBLE
                 }
-
             }
 
             setnave.setOnClickListener {
-                angle = 0
+
                 for (i in 0 until items.size) {
                     items[i].background = null
-                    if (items[i].findViewById<ImageView>(R.id.itemmarnave).background != null)
+                    if (items[i].findViewById<ImageView>(R.id.itemmarnave).background != null) {
                         player.getMyTablero()[i].isnave = true
+                        player.getMyTablero()[i].angle = this.angle
+
+                    }
+
                 }
-                setnave.visibility = View.INVISIBLE
+
                 when (selectName) {
                     "PA" -> {
                         cantPA -= 1
@@ -408,6 +295,7 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                 lPA.background = null
                 lC.background = null
                 lL.background = null
+                reset(binding)
 
                 val d = dialog as AlertDialog?
                 if (d != null) {
@@ -421,7 +309,6 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                 }
 
             }
-
 
             //Botones del dialog
             builder.setView(binding).setPositiveButton("Ok",
@@ -439,6 +326,26 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
         params.width = ActionBar.LayoutParams.MATCH_PARENT
         params.height = ActionBar.LayoutParams.MATCH_PARENT
         dialog!!.window!!.attributes = params as WindowManager.LayoutParams
+    }
+
+    private fun reset(binding: View) {
+        val items: RecyclerView = binding.findViewById(R.id.recView_mytab)
+        val setnave = binding.findViewById<ImageButton>(R.id.setnave)
+        a = 0
+        b = 0
+        c = 0
+        d = 0
+        this.angle = 0
+        setnave.visibility = View.INVISIBLE
+        for (i in 0 until items.size) {
+            items[i].background = null
+            if (!player.getMyTablero()[i].isnave) {
+                items[i].findViewById<ImageView>(R.id.itemmarnave).background = null
+                items[i].findViewById<ImageView>(R.id.itemmarnave).rotation = 0.toFloat()
+                player.getMyTablero()[i].bg = 0
+            }
+
+        }
     }
 
 
@@ -461,7 +368,7 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
         val colocar: ImageButton = binding.findViewById(R.id.setnave)
 
         var i = 0
-        angle = 0
+        reset(binding)
 
 
         if (isSelect) {
@@ -480,66 +387,30 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                         i = pos % 5
                         i *= (-1)
                         if (arrayPA.contains(pos)) {
-                            for (k in i until 5) {
-                                if (player.getMyTablero()[it + k].isnave) {
-                                    colocar.visibility = View.INVISIBLE
-                                    break
-                                }
-                            }
-                            if (colocar.visibility != View.INVISIBLE) {
-                                items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_1)
-                                items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_2)
-                                items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_3)
-                                items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_4)
-                                items[it + i].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_5)
-                            }
-                        } else {
-                            for (k in 0 until 5) {
-                                if (player.getMyTablero()[it + k].isnave) {
-                                    colocar.visibility = View.INVISIBLE
-                                    break
-                                }
-                            }
-                            if (colocar.visibility != View.INVISIBLE) {
-                                items[it].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_1)
-                                items[it + 1].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_2)
-                                items[it + 2].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_3)
-                                items[it + 3].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_4)
-                                items[it + 4].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_5)
-                            }
-                        }
-                    }
-                    "B" -> {
-                        i = pos % 10 % 6
-                        i *= (-1)
-
-                        if (arrayB.contains(pos)) {
                             for (k in i until 4) {
+                                if (k == 3)
+                                    break
                                 if (player.getMyTablero()[it + k].isnave) {
                                     colocar.visibility = View.INVISIBLE
                                     break
                                 }
                             }
-
                             if (colocar.visibility != View.INVISIBLE) {
+                                player.getMyTablero()[it + i].bg = R.drawable.portaaviones_1
                                 items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.buqe_1)
+                                    .setBackgroundResource(R.drawable.portaaviones_1)
+                                player.getMyTablero()[it + i].bg = R.drawable.portaaviones_2
                                 items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.buqe_2)
+                                    .setBackgroundResource(R.drawable.portaaviones_2)
+                                player.getMyTablero()[it + i].bg = R.drawable.portaaviones_3
                                 items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.buqe_3)
+                                    .setBackgroundResource(R.drawable.portaaviones_3)
+                                player.getMyTablero()[it + i].bg = R.drawable.portaaviones_4
+                                items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
+                                    .setBackgroundResource(R.drawable.portaaviones_4)
+                                player.getMyTablero()[it + i].bg = R.drawable.portaaviones_5
                                 items[it + i].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.buqe_4)
+                                    .setBackgroundResource(R.drawable.portaaviones_5)
                             }
                         } else {
                             for (k in 0 until 4) {
@@ -548,25 +419,36 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                                     break
                                 }
                             }
-
-
                             if (colocar.visibility != View.INVISIBLE) {
                                 items[it].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.buqe_1)
+                                    .setBackgroundResource(R.drawable.portaaviones_1)
+                                player.getMyTablero()[it].bg = R.drawable.portaaviones_1
                                 items[it + 1].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.buqe_2)
+                                    .setBackgroundResource(R.drawable.portaaviones_2)
+                                player.getMyTablero()[it + 1].bg = R.drawable.portaaviones_2
                                 items[it + 2].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.buqe_3)
+                                    .setBackgroundResource(R.drawable.portaaviones_3)
+                                player.getMyTablero()[it + 2].bg = R.drawable.portaaviones_3
                                 items[it + 3].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.buqe_4)
+                                    .setBackgroundResource(R.drawable.portaaviones_4)
+                                player.getMyTablero()[it + 3].bg = R.drawable.portaaviones_4
+                                items[it + 4].findViewById<ImageView>(R.id.itemmarnave)
+                                    .setBackgroundResource(R.drawable.portaaviones_5)
+                                player.getMyTablero()[it + 4].bg = R.drawable.portaaviones_5
                             }
                         }
                     }
-                    "SB" -> {
-                        i = pos % 2 + 1
+                    "B" -> {
+                        i = pos % 10 % 6
                         i *= (-1)
-                        if (arraySB.contains(pos)) {
+
+                        if (arrayB.contains(pos)) {
+
                             for (k in i until 3) {
+                                if (k == 2) {
+                                    break
+                                }
+
                                 if (player.getMyTablero()[it + k].isnave) {
                                     colocar.visibility = View.INVISIBLE
                                     break
@@ -574,13 +456,20 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                             }
 
                             if (colocar.visibility != View.INVISIBLE) {
+                                player.getMyTablero()[it + i].bg = R.drawable.buqe_1
                                 items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.submarino_1)
+                                    .setBackgroundResource(R.drawable.buqe_1)
+                                player.getMyTablero()[it + i].bg = R.drawable.buqe_2
                                 items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.submarino_2)
+                                    .setBackgroundResource(R.drawable.buqe_2)
+                                player.getMyTablero()[it + i].bg = R.drawable.buqe_3
+                                items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
+                                    .setBackgroundResource(R.drawable.buqe_3)
+                                player.getMyTablero()[it + i].bg = R.drawable.buqe_4
                                 items[it + i].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.submarino_3)
+                                    .setBackgroundResource(R.drawable.buqe_4)
                             }
+
                         } else {
                             for (k in 0 until 3) {
                                 if (player.getMyTablero()[it + k].isnave) {
@@ -588,21 +477,32 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                                     break
                                 }
                             }
+
+
                             if (colocar.visibility != View.INVISIBLE) {
                                 items[it].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.submarino_1)
+                                    .setBackgroundResource(R.drawable.buqe_1)
+                                player.getMyTablero()[it].bg = R.drawable.buqe_1
                                 items[it + 1].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.submarino_2)
+                                    .setBackgroundResource(R.drawable.buqe_2)
+                                player.getMyTablero()[it + 1].bg = R.drawable.buqe_2
                                 items[it + 2].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.submarino_3)
+                                    .setBackgroundResource(R.drawable.buqe_3)
+                                player.getMyTablero()[it + 2].bg = R.drawable.buqe_3
+                                items[it + 3].findViewById<ImageView>(R.id.itemmarnave)
+                                    .setBackgroundResource(R.drawable.buqe_4)
+                                player.getMyTablero()[it + 3].bg = R.drawable.buqe_4
                             }
                         }
                     }
-                    "C" -> {
-                        i = pos % 2
+                    "SB" -> {
+                        i = pos % 2 + 1
                         i *= (-1)
-                        if (arrayC.contains(pos)) {
+                        if (arraySB.contains(pos)) {
                             for (k in i until 2) {
+                                if (k == 1)
+                                    break
+
                                 if (player.getMyTablero()[it + k].isnave) {
                                     colocar.visibility = View.INVISIBLE
                                     break
@@ -610,10 +510,15 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                             }
 
                             if (colocar.visibility != View.INVISIBLE) {
+                                player.getMyTablero()[it].bg = R.drawable.submarino_1
                                 items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.crucero_1)
+                                    .setBackgroundResource(R.drawable.submarino_1)
+                                player.getMyTablero()[it + i].bg = R.drawable.submarino_2
+                                items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
+                                    .setBackgroundResource(R.drawable.submarino_2)
+                                player.getMyTablero()[it + i].bg = R.drawable.submarino_3
                                 items[it + i].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.crucero_2)
+                                    .setBackgroundResource(R.drawable.submarino_3)
                             }
                         } else {
                             for (k in 0 until 2) {
@@ -622,18 +527,69 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                                     break
                                 }
                             }
+                            if (colocar.visibility != View.INVISIBLE) {
+                                items[it].findViewById<ImageView>(R.id.itemmarnave)
+                                    .setBackgroundResource(R.drawable.submarino_1)
+                                player.getMyTablero()[it].bg = R.drawable.submarino_1
+                                items[it + 1].findViewById<ImageView>(R.id.itemmarnave)
+                                    .setBackgroundResource(R.drawable.submarino_2)
+                                player.getMyTablero()[it + 1].bg = R.drawable.submarino_2
+                                items[it + 2].findViewById<ImageView>(R.id.itemmarnave)
+                                    .setBackgroundResource(R.drawable.submarino_3)
+                                player.getMyTablero()[it + 2].bg = R.drawable.submarino_3
+                            }
+                        }
+                    }
+                    "C" -> {
+                        i = pos % 2
+                        i *= (-1)
+                        if (arrayC.contains(pos)) {
+                            for (k in i until 1) {
+                                if (k == 1)
+                                    break
+                                if (player.getMyTablero()[it + k].isnave) {
+                                    colocar.visibility = View.INVISIBLE
+                                    break
+                                }
+                            }
+
+                            if (colocar.visibility != View.INVISIBLE) {
+                                player.getMyTablero()[it].bg = R.drawable.crucero_1
+                                items[it + i++].findViewById<ImageView>(R.id.itemmarnave)
+                                    .setBackgroundResource(R.drawable.crucero_1)
+                                items[it + i].findViewById<ImageView>(R.id.itemmarnave)
+                                    .setBackgroundResource(R.drawable.crucero_2)
+                                player.getMyTablero()[it+i].bg = R.drawable.crucero_2
+                            }
+                        } else {
+                            for (k in 0 until 1) {
+                                if (player.getMyTablero()[it + k].isnave) {
+                                    colocar.visibility = View.INVISIBLE
+                                    break
+                                }
+                            }
 
                             if (colocar.visibility != View.INVISIBLE) {
                                 items[it].findViewById<ImageView>(R.id.itemmarnave)
                                     .setBackgroundResource(R.drawable.crucero_1)
+                                player.getMyTablero()[it].bg = R.drawable.crucero_1
                                 items[it + 1].findViewById<ImageView>(R.id.itemmarnave)
                                     .setBackgroundResource(R.drawable.crucero_2)
+                                player.getMyTablero()[it + 1].bg = R.drawable.crucero_2
                             }
                         }
                     }
                     "L" -> {
-                        items[it].findViewById<ImageView>(R.id.itemmarnave)
-                            .setBackgroundResource(R.drawable.lancha_1)
+
+                        if (player.getMyTablero()[it].isnave) {
+                            colocar.visibility = View.INVISIBLE
+                        }
+
+                        if (colocar.visibility != View.INVISIBLE) {
+                            items[it].findViewById<ImageView>(R.id.itemmarnave)
+                                .setBackgroundResource(R.drawable.lancha_1)
+                            player.getMyTablero()[it].bg = R.drawable.lancha_1
+                        }
                     }
 
                 }
@@ -649,8 +605,10 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                 items[it].background = null
                 for (i in 0 until items.size) {
                     items[i].background = null
-                    if (!player.getMyTablero()[i].isnave)
+                    if (!player.getMyTablero()[i].isnave) {
                         items[i].findViewById<ImageView>(R.id.itemmarnave).background = null
+                        player.getMyTablero()[i].bg = 0
+                    }
                 }
             }
         }
@@ -668,17 +626,14 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
         }
     }
 
-    fun move(it: Int, binding: View, move: String) {
+    private fun move(it: Int, binding: View, move: String) {
 
         val items: RecyclerView = binding.findViewById(R.id.recView_mytab)
         val colocar: ImageButton = binding.findViewById(R.id.setnave)
 
         var i = 0
-        var a = 0
-        var b = 0
-        var c = 0
-        var d = 0
-        println("Incia: $pos")
+
+
         if (isSelect) {
             colocar.visibility = View.VISIBLE
 
@@ -693,7 +648,7 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
             }
 
             when (move) {
-                "2" -> {
+                "2" -> {//arriba
                     when (selectName) {
                         "PA" -> {
                             if (direccion == "Horizontal") {
@@ -703,52 +658,100 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                                     pos += 90
                                 }
                             } else {
-                                
-
+                                if (this.angle == 90 || this.angle == -270) {//hacia abajo
+                                    if (pos >= 10) {
+                                        pos -= 10
+                                    } else {
+                                        pos += 50
+                                    }
+                                } else if (this.angle == 270 || this.angle == -90) {//hacia arriba
+                                    if (pos >= 50) {
+                                        pos -= 10
+                                    } else {
+                                        pos += 50
+                                    }
+                                }
                             }
                         }
                         "B" -> {
-                            if (pos == 0) {
-                                pos += 7
-                            } else if (pos % 10 == 0) {
-                                pos += 7
-                            } else if (pos % 10 > 6) {
-                                pos -= (pos % 10 % 5)
-                                pos--
+                            if (direccion == "Horizontal") {
+                                if (pos > 10) {
+                                    pos -= 10
+                                } else if (pos < 10) {
+                                    pos += 90
+                                }
+                            } else {
+                                if (this.angle == 90 || this.angle == -270) {//hacia abajo
+                                    if (pos >= 10) {
+                                        pos -= 10
+                                    } else {
+                                        pos += 60
+                                    }
+                                } else if (this.angle == 270 || this.angle == -90) {//hacia arriba
+                                    if (pos >= 40) {
+                                        pos -= 10
+                                    } else {
+                                        pos += 60
+                                    }
+                                }
                             }
-
                         }
                         "SB" -> {
-                            if (pos == 0) {
-                                pos += 8
-                            } else if (pos % 10 == 0) {
-                                pos += 8
-                            } else if (pos % 10 > 7) {
-                                pos -= (pos % 10 % 5)
-                                pos--
+                            if (direccion == "Horizontal") {
+                                if (pos > 10) {
+                                    pos -= 10
+                                } else if (pos < 10) {
+                                    pos += 90
+                                }
+                            } else {
+                                if (this.angle == 90 || this.angle == -270) {//hacia abajo
+                                    if (pos >= 10) {
+                                        pos -= 10
+                                    } else {
+                                        pos += 70
+                                    }
+                                } else if (this.angle == 270 || this.angle == -90) {//hacia arriba
+                                    if (pos >= 30) {
+                                        pos -= 10
+                                    } else {
+                                        pos += 70
+                                    }
+                                }
                             }
                         }
                         "C" -> {
-                            if (pos == 0) {
-                                pos += 9
-                            } else if (pos % 10 == 0) {
-                                pos += 9
-                            } else if (pos % 10 > 8) {
-                                pos -= (pos % 10 % 5)
-                                pos--
+                            if (direccion == "Horizontal") {
+                                if (pos > 10) {
+                                    pos -= 10
+                                } else if (pos < 10) {
+                                    pos += 90
+                                }
+                            } else {
+                                if (this.angle == 90 || this.angle == -270) {//hacia abajo
+                                    if (pos >= 10) {
+                                        pos -= 10
+                                    } else {
+                                        pos += 80
+                                    }
+                                } else if (this.angle == 270 || this.angle == -90) {//hacia arriba
+                                    if (pos >= 20) {
+                                        pos -= 10
+                                    } else {
+                                        pos += 80
+                                    }
+                                }
                             }
                         }
                         "L" -> {
-                            if (pos == 0) {
-                                pos += 10
-                            } else if (pos % 10 == 0)
-                                pos += 10
-
-                            pos--
+                            if (pos >= 10) {
+                                pos -= 10
+                            } else if (pos <= 10) {
+                                pos += 90
+                            }
                         }
                     }
                 }
-                "4" -> {
+                "4" -> {//izquierda
                     when (selectName) {
                         "PA" -> {
                             if (direccion == "Horizontal") {
@@ -768,35 +771,57 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                             pos--
                         }
                         "B" -> {
-                            if (pos == 0) {
-                                pos += 7
-                            } else if (pos % 10 == 0) {
-                                pos += 7
-                            } else if (pos % 10 > 6) {
-                                pos -= (pos % 10 % 5)
-                                pos--
+
+                            if (direccion == "Horizontal") {
+                                if (pos == 0) {
+                                    pos += 7
+                                } else if (pos % 10 == 0) {
+                                    pos += 7
+                                } else if (pos % 10 > 6) {
+                                    pos -= (pos % 10 % 5)
+                                }
+                            } else {
+                                if (pos == 0) {
+                                    pos += 10
+                                } else if (pos % 10 == 0)
+                                    pos += 10
                             }
+                            pos--
 
                         }
                         "SB" -> {
-                            if (pos == 0) {
-                                pos += 8
-                            } else if (pos % 10 == 0) {
-                                pos += 8
-                            } else if (pos % 10 > 7) {
-                                pos -= (pos % 10 % 5)
-                                pos--
+                            if (direccion == "Horizontal") {
+                                if (pos == 0) {
+                                    pos += 8
+                                } else if (pos % 10 == 0) {
+                                    pos += 8
+                                } else if (pos % 10 > 7) {
+                                    pos -= (pos % 10 % 5)
+                                }
+                            } else {
+                                if (pos == 0) {
+                                    pos += 10
+                                } else if (pos % 10 == 0)
+                                    pos += 10
                             }
+                            pos--
                         }
                         "C" -> {
-                            if (pos == 0) {
-                                pos += 9
-                            } else if (pos % 10 == 0) {
-                                pos += 9
-                            } else if (pos % 10 > 8) {
-                                pos -= (pos % 10 % 5)
-                                pos--
+                            if (direccion == "Horizontal") {
+                                if (pos == 0) {
+                                    pos += 9
+                                } else if (pos % 10 == 0) {
+                                    pos += 9
+                                } else if (pos % 10 > 8) {
+                                    pos -= (pos % 10 % 5)
+                                }
+                            } else {
+                                if (pos == 0) {
+                                    pos += 10
+                                } else if (pos % 10 == 0)
+                                    pos += 10
                             }
+                            pos--
                         }
                         "L" -> {
                             if (pos == 0) {
@@ -808,24 +833,48 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                         }
                     }
                 }
-                "6" -> {
+                "6" -> { //derecha
                     pos++
                     when (selectName) {
                         "PA" -> {
-                            if (pos % 10 > 5)
-                                pos -= 6
+                            if (direccion == "Horizontal") {
+                                if (pos % 10 > 5)
+                                    pos -= 6
+                            } else {
+                                if (pos % 10 == 0) {
+                                    pos -= 10
+                                }
+                            }
                         }
                         "B" -> {
-                            if (pos % 10 > 6)
-                                pos -= 7
+                            if (direccion == "Horizontal") {
+                                if (pos % 10 > 6)
+                                    pos -= 7
+                            } else {
+                                if (pos % 10 == 0) {
+                                    pos -= 10
+                                }
+                            }
                         }
                         "SB" -> {
-                            if (pos % 10 > 7)
-                                pos -= 8
+                            if (direccion == "Horizontal") {
+                                if (pos % 10 > 7)
+                                    pos -= 8
+                            } else {
+                                if (pos % 10 == 0) {
+                                    pos -= 10
+                                }
+                            }
                         }
                         "C" -> {
-                            if (pos % 10 > 8)
-                                pos -= 9
+                            if (direccion == "Horizontal") {
+                                if (pos % 10 > 8)
+                                    pos -= 9
+                            } else {
+                                if (pos % 10 == 0) {
+                                    pos -= 10
+                                }
+                            }
                         }
                         "L" -> {
                             if (pos % 10 == 0)
@@ -836,10 +885,107 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
 
                 }
                 "8" -> {
-                    if (pos < 90)
-                        pos += 10
-                    else if (pos > 90)
-                        pos -= 90
+                    when (selectName) {
+                        "PA" -> {//bajamos nave
+                            if (direccion == "Horizontal") {
+                                if (pos < 90) {
+                                    pos += 10
+                                } else if (pos > 90) {
+                                    pos -= 90
+                                }
+                            } else {
+                                if (this.angle == 90 || this.angle == -270) {//hacia abajo
+                                    if (pos < 49) {
+                                        pos += 10
+                                    } else {
+                                        pos -= 50
+                                    }
+                                } else if (this.angle == 270 || this.angle == -90) {//hacia arriba
+                                    if (pos < 90) {
+                                        pos += 10
+                                    } else {
+                                        pos -= 50
+                                    }
+                                }
+                            }
+                        }
+                        "B" -> {
+                            if (direccion == "Horizontal") {
+                                if (pos < 90) {
+                                    pos += 10
+                                } else if (pos > 90) {
+                                    pos -= 90
+                                }
+                            } else {
+                                if (this.angle == 90 || this.angle == -270) {//hacia abajo
+                                    if (pos < 59) {
+                                        pos += 10
+                                    } else {
+                                        pos -= 60
+                                    }
+                                } else if (this.angle == 270 || this.angle == -90) {//hacia arriba
+                                    if (pos < 90) {
+                                        pos += 10
+                                    } else {
+                                        pos -= 60
+                                    }
+                                }
+                            }
+                        }
+                        "SB" -> {
+                            if (direccion == "Horizontal") {
+                                if (pos < 90) {
+                                    pos += 10
+                                } else if (pos > 90) {
+                                    pos -= 90
+                                }
+                            } else {
+                                if (this.angle == 90 || this.angle == -270) {//hacia abajo
+                                    if (pos < 69) {
+                                        pos += 10
+                                    } else {
+                                        pos -= 70
+                                    }
+                                } else if (this.angle == 270 || this.angle == -90) {//hacia arriba
+                                    if (pos < 90) {
+                                        pos += 10
+                                    } else {
+                                        pos -= 70
+                                    }
+                                }
+                            }
+                        }
+                        "C" -> {
+                            if (direccion == "Horizontal") {
+                                if (pos < 90) {
+                                    pos += 10
+                                } else if (pos > 90) {
+                                    pos -= 90
+                                }
+                            } else {
+                                if (this.angle == 90 || this.angle == -270) {//hacia abajo
+                                    if (pos < 79) {
+                                        pos += 10
+                                    } else {
+                                        pos -= 80
+                                    }
+                                } else if (this.angle == 270 || this.angle == -90) {//hacia arriba
+                                    if (pos < 90) {
+                                        pos += 10
+                                    } else {
+                                        pos -= 80
+                                    }
+                                }
+                            }
+                        }
+                        "L" -> {
+                            if (pos < 90) {
+                                pos += 10
+                            } else if (pos > 90) {
+                                pos -= 90
+                            }
+                        }
+                    }
                 }
                 "izq" -> {
                     if (direccion == "Horizontal") {
@@ -848,7 +994,7 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                         direccion = "Horizontal"
                     }
 
-                    angle -= 90
+                    this.angle -= 90
                 }
                 "der" -> {
                     if (direccion == "Vertical") {
@@ -857,280 +1003,394 @@ class DialogSetNaves(context: Context, private val player: Player) : DialogFragm
                         direccion = "Vertical"
                     }
 
-                    angle += 90
+                    this.angle += 90
                 }
 
             }//end tipo de movimiento
 
             if (move == "der" || move == "izq") {
-                when (angle) {
-                    90, (-180), (-270) -> {
+                when (this.angle) {
+                    90, -270 -> {
+                        // abajo  90, -270
                         a = 10
                         b = 20
                         c = 30
                         d = 40
                     }
-                    (-90), 180, 270 -> {
+                    -90, 270 -> {
+                        // arriba -90, 270
                         a = -10
                         b = -20
                         c = -30
                         d = -40
                     }
-                    360, -360 -> {
-                        angle = 0
+                    180, -180 -> {
+                        //izquierda 180, -180
+                        a = -1
+                        b = -2
+                        c = -3
+                        d = -4
+                    }
+                    360, -360, 0 -> {
+                        //derecha 360, -360
+                        this.angle = 0
+                        a = 1
+                        b = 2
+                        c = 3
+                        d = 4
                     }
                 }// fin when angulos
             }//condicionales de giro
+            else if (this.angle == 0) {
+                a = 1
+                b = 2
+                c = 3
+                d = 4
+            }
+
+
+            
 
 
             when (selectName) {
                 "PA" -> {
-                    //hacia abajo 90, -270  separa de abajo
-                    if (angle == 90 || angle == -270) {
-                        if (pos > 59) {
-                            pos = pos % 10 + 50
+                    when (this.angle) {
+                        90, -270 -> {
+                            if (pos > 59) {
+                                pos = pos % 10 + 50
+                            }
+                        }
+                        -90, 270 -> {
+                            if (pos < 39) {
+                                pos = pos % 10 + 40
+                            }
+                        }
+                        180, -180 -> { //izquierda
+                            if (pos % 10 < 5) {
+                                when (pos % 10) {
+                                    0 -> pos += 4
+                                    1 -> pos += 3
+                                    2 -> pos += 2
+                                    3 -> pos += 1
+                                }
+                            }
+                        }
+                        0 -> { //derecha
+                            if (pos % 10 > 5) {
+                                when (pos % 10) {
+                                    6 -> pos -= 1
+                                    7 -> pos -= 2
+                                    8 -> pos -= 3
+                                    9 -> pos -= 4
+                                }
+                            }
+                        }
+                    }// fin when separador de lados
+
+                    // abajo 90, -270  // arriba -90, 270
+                    // izquierda 180, -180 // derecha 360, -360
+                    for (k in 0 until 4) {
+
+                        if (this.angle == 270 || this.angle == -90) { //arriba
+                            if (player.getMyTablero()[pos + (k * (-10))].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
+                        } else if (this.angle == -270 || this.angle == 90) { //abajo
+                            if (player.getMyTablero()[pos + (k * (10))].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
+                        } else if (this.angle == 180 || this.angle == -180) { //izquierda
+                            if (player.getMyTablero()[pos + (k * (-1))].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
+                        } else {//derecha
+                            if (player.getMyTablero()[pos + k].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
                         }
                     }
 
-                    //hacia arriba -90, 270, separa derecha
-                    if (angle == 270 || angle == -90 ) {
-                        if (pos < 39) {
-                            pos = pos % 10 + 40
-                        }
-                    }
+                    // 10 abajo -10 arriba 1 derecha -1 izquierda
+                    if (colocar.visibility != View.INVISIBLE) {
+                        items[pos].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.portaaviones_1)
+                        items[pos].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos].bg = R.drawable.portaaviones_1
+                        items[pos + a].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.portaaviones_2)
+                        items[pos + a].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos + a].bg = R.drawable.portaaviones_2
+                        items[pos + b].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.portaaviones_3)
+                        items[pos + b].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos + b].bg = R.drawable.portaaviones_3
+                        items[pos + c].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.portaaviones_4)
+                        items[pos + c].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos + c].bg = R.drawable.portaaviones_4
+                        items[pos + d].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.portaaviones_5)
+                        items[pos + d].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos + d].bg = R.drawable.portaaviones_5
+                    }// end draw permite
 
-                    when (direccion) {
-                        "Horizontal" -> {
-                            i = pos % 10 % 5
-                            i *= (-1)
-                            if (arrayPA.contains(pos)) {
-                                for (k in i until 3) {
-                                    println("K: $k  pos+k= ${pos + k}")
-                                    if (k == 3)
-                                        break
 
-                                    if (player.getMyTablero()[pos + k].isnave) {
-                                        colocar.visibility = View.INVISIBLE
-                                        break
-                                    }
-                                }
-                                if (colocar.visibility != View.INVISIBLE) {
-                                    items[pos + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                        .setBackgroundResource(R.drawable.portaaviones_1)
-                                    items[pos + (i - 1)].findViewById<ImageView>(R.id.itemmarnave)
-                                        .rotation = angle.toFloat()
-                                    items[pos + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                        .setBackgroundResource(R.drawable.portaaviones_2)
-                                    items[pos + (i - 1)].findViewById<ImageView>(R.id.itemmarnave)
-                                        .rotation = angle.toFloat()
-                                    items[pos + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                        .setBackgroundResource(R.drawable.portaaviones_3)
-                                    items[pos + (i - 1)].findViewById<ImageView>(R.id.itemmarnave)
-                                        .rotation = angle.toFloat()
-                                    items[pos + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                        .setBackgroundResource(R.drawable.portaaviones_4)
-                                    items[pos + (i - 1)].findViewById<ImageView>(R.id.itemmarnave)
-                                        .rotation = angle.toFloat()
-                                    items[pos + i].findViewById<ImageView>(R.id.itemmarnave)
-                                        .setBackgroundResource(R.drawable.portaaviones_5)
-                                    items[pos + i].findViewById<ImageView>(R.id.itemmarnave)
-                                        .rotation = angle.toFloat()
-                                }//if si es posible colocar naves
-                                //if si esta en rango de lateral derecho
-                            } else {
-                                for (k in 0 until 4) {
-                                    if (player.getMyTablero()[pos + k].isnave) {
-                                        colocar.visibility = View.INVISIBLE
-                                        break
-                                    }
-                                }
-                                if (colocar.visibility != View.INVISIBLE) {
-                                    items[pos].findViewById<ImageView>(R.id.itemmarnave)
-                                            .setBackgroundResource(R.drawable.portaaviones_1)
-                                    items[pos].findViewById<ImageView>(R.id.itemmarnave)
-                                        .rotation = angle.toFloat()
-                                    items[pos + 1].findViewById<ImageView>(R.id.itemmarnave)
-                                        .setBackgroundResource(R.drawable.portaaviones_2)
-                                    items[pos + 1].findViewById<ImageView>(R.id.itemmarnave)
-                                        .rotation = angle.toFloat()
-                                    items[pos + 2].findViewById<ImageView>(R.id.itemmarnave)
-                                        .setBackgroundResource(R.drawable.portaaviones_3)
-                                    items[pos + 2].findViewById<ImageView>(R.id.itemmarnave)
-                                        .rotation = angle.toFloat()
-                                    items[pos + 3].findViewById<ImageView>(R.id.itemmarnave)
-                                        .setBackgroundResource(R.drawable.portaaviones_4)
-                                    items[pos + 3].findViewById<ImageView>(R.id.itemmarnave)
-                                        .rotation = angle.toFloat()
-                                    items[pos + 4].findViewById<ImageView>(R.id.itemmarnave)
-                                        .setBackgroundResource(R.drawable.portaaviones_5)
-                                    items[pos + 4].findViewById<ImageView>(R.id.itemmarnave)
-                                        .rotation = angle.toFloat()
-                                }
-                            }//end if pertenece a cuadrantes else horizontal
-                        }
-                        "Vertical" -> {
-
-                            for (k in 0 until 4) {
-                                if (angle == 270 || angle == -90) {
-                                    if (player.getMyTablero()[pos + (k * (-10))].isnave) {
-                                        colocar.visibility = View.INVISIBLE
-                                        break
-                                    }
-                                } else {
-                                    if (player.getMyTablero()[pos + (k * 10)].isnave) {
-                                        colocar.visibility = View.INVISIBLE
-                                        break
-                                    }
-                                }
-
-                            }
-
-                            if (colocar.visibility != View.INVISIBLE) {
-
-                                items[pos].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_1)
-                                items[pos].findViewById<ImageView>(R.id.itemmarnave)
-                                    .rotation = angle.toFloat()
-                                items[pos + a].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_2)
-                                items[pos + a].findViewById<ImageView>(R.id.itemmarnave)
-                                    .rotation = angle.toFloat()
-                                items[pos + b].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_3)
-                                items[pos + b].findViewById<ImageView>(R.id.itemmarnave)
-                                    .rotation = angle.toFloat()
-                                items[pos + c].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_4)
-                                items[pos + c].findViewById<ImageView>(R.id.itemmarnave)
-                                    .rotation = angle.toFloat()
-                                items[pos + d].findViewById<ImageView>(R.id.itemmarnave)
-                                    .setBackgroundResource(R.drawable.portaaviones_5)
-                                items[pos + d].findViewById<ImageView>(R.id.itemmarnave)
-                                    .rotation = angle.toFloat()
-
-                            }
-                        }//end vertical
-                    }//end when direccion PA
                 }//end PA
                 "B" -> {
-                    i = pos % 10 % 6
-                    i *= (-1)
+                    when (this.angle) {
+                        90, -270 -> {//abajo
+                            if (pos > 69) {
+                                pos = pos % 10 + 60
+                            }
+                        }
+                        -90, 270 -> {//arriba
+                            if (pos < 29) {
+                                pos = pos % 10 + 30
+                            }
+                        }
+                        180, -180 -> { //izquierda
+                            if (pos % 10 < 4) {
+                                when (pos % 10) {
+                                    0 -> pos += 3
+                                    1 -> pos += 2
+                                    2 -> pos += 1
+                                }
+                            }
+                        }
+                        0 -> { //derecha
+                            if (pos % 10 > 6) {
+                                when (pos % 10) {
+                                    7 -> pos -= 1
+                                    8 -> pos -= 2
+                                    9 -> pos -= 3
+                                }
+                            }
+                        }
+                    }// fin when separador de lados
 
-                    if (arrayB.contains(pos)) {
-                        for (k in i until 3) {
+                    // abajo 90, -270  // arriba -90, 270
+                    // izquierda 180, -180 // derecha 360, -360
+                    for (k in 0 until 3) {
+
+
+                        if (this.angle == 270 || this.angle == -90) { //arriba
+                            if (player.getMyTablero()[pos + (k * (-10))].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
+                        } else if (this.angle == -270 || this.angle == 90) { //abajo
+                            if (player.getMyTablero()[pos + (k * (10))].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
+                        } else if (this.angle == 180 || this.angle == -180) { //izquierda
+                            if (player.getMyTablero()[pos + (k * (-1))].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
+                        } else {//derecha
                             if (player.getMyTablero()[pos + k].isnave) {
                                 colocar.visibility = View.INVISIBLE
                                 break
                             }
-                        }
-
-                        if (colocar.visibility != View.INVISIBLE) {
-                            items[pos + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.buqe_1)
-                            items[pos + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.buqe_2)
-                            items[pos + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.buqe_3)
-                            items[pos + i].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.buqe_4)
-                        }
-                    } else {
-                        for (k in 0 until 4) {
-                            if (player.getMyTablero()[pos + k].isnave) {
-                                colocar.visibility = View.INVISIBLE
-                                break
-                            }
-                        }
-
-
-                        if (colocar.visibility != View.INVISIBLE) {
-                            items[pos].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.buqe_1)
-                            items[pos + 1].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.buqe_2)
-                            items[pos + 2].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.buqe_3)
-                            items[pos + 3].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.buqe_4)
                         }
                     }
-                }
+
+                    // 10 abajo -10 arriba 1 derecha -1 izquierda
+                    if (colocar.visibility != View.INVISIBLE) {
+                        items[pos].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.buqe_1)
+                        player.getMyTablero()[pos].bg = R.drawable.buqe_1
+                        items[pos].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        items[pos + a].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.buqe_2)
+                        items[pos + a].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos + a].bg = R.drawable.buqe_2
+                        items[pos + b].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.buqe_3)
+                        items[pos + b].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos + b].bg = R.drawable.buqe_3
+                        items[pos + c].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.buqe_4)
+                        items[pos + c].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos + c].bg = R.drawable.buqe_4
+                    }// end draw permite
+
+
+                }//end  B
                 "SB" -> {
-                    i = pos % 2 + 1
-                    i *= (-1)
-                    if (arraySB.contains(pos)) {
-                        for (k in i until 3) {
-                            if (player.getMyTablero()[pos + k].isnave) {
-                                colocar.visibility = View.INVISIBLE
-                                break
+                    when (this.angle) {
+                        90, -270 -> {//abajo
+                            if (pos > 79) {
+                                pos = pos % 10 + 70
                             }
                         }
+                        -90, 270 -> {//arriba
+                            if (pos < 19) {
+                                pos = pos % 10 + 20
+                            }
+                        }
+                        180, -180 -> { //izquierda
+                            if (pos % 10 < 3) {
+                                when (pos % 10) {
+                                    0 -> pos += 2
+                                    1 -> pos += 1
+                                }
+                            }
+                        }
+                        0 -> { //derecha
+                            if (pos % 10 > 7) {
+                                when (pos % 10) {
+                                    8 -> pos -= 1
+                                    9 -> pos -= 2
+                                }
+                            }
+                        }
+                    }// fin when separador de lados
 
-                        if (colocar.visibility != View.INVISIBLE) {
-                            items[pos + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.submarino_1)
-                            items[pos + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.submarino_2)
-                            items[pos + i].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.submarino_3)
-                        }
-                    } else {
-                        for (k in 0 until 3) {
+                    // abajo 90, -270  // arriba -90, 270
+                    // izquierda 180, -180 // derecha 360, -360
+                    for (k in 0 until 2) {
+
+
+                        if (this.angle == 270 || this.angle == -90) { //arriba
+                            if (player.getMyTablero()[pos + (k * (-10))].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
+                        } else if (this.angle == -270 || this.angle == 90) { //abajo
+                            if (player.getMyTablero()[pos + (k * (10))].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
+                        } else if (this.angle == 180 || this.angle == -180) { //izquierda
+                            if (player.getMyTablero()[pos + (k * (-1))].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
+                        } else {//derecha
                             if (player.getMyTablero()[pos + k].isnave) {
                                 colocar.visibility = View.INVISIBLE
                                 break
                             }
-                        }
-                        if (colocar.visibility != View.INVISIBLE) {
-                            items[pos].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.submarino_1)
-                            items[pos + 1].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.submarino_2)
-                            items[pos + 2].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.submarino_3)
                         }
                     }
-                }
+
+                    // 10 abajo -10 arriba 1 derecha -1 izquierda
+                    if (colocar.visibility != View.INVISIBLE) {
+                        items[pos].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.submarino_1)
+                        items[pos].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos].bg = R.drawable.submarino_1
+                        items[pos + a].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.submarino_2)
+                        items[pos + a].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos + a].bg = R.drawable.submarino_2
+                        items[pos + b].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.submarino_3)
+                        items[pos + b].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos + b].bg = R.drawable.submarino_3
+                    }// end draw permite
+                }//end SB
                 "C" -> {
-                    i = pos % 2
-                    i *= (-1)
-                    if (arrayC.contains(pos)) {
-                        for (k in i until 2) {
+                    when (this.angle) {
+                        90, -270 -> {//abajo
+                            if (pos > 89) {
+                                pos = pos % 10 + 80
+                            }
+                        }
+                        -90, 270 -> {//arriba
+                            if (pos < 9) {
+                                pos = pos % 10 + 10
+                            }
+                        }
+                        180, -180 -> { //izquierda
+                            if (pos % 10 < 2) {
+                                when (pos % 10) {
+                                    0 -> pos += 1
+                                }
+                            }
+                        }
+                        0 -> { //derecha
+                            if (pos % 10 > 8) {
+                                when (pos % 10) {
+                                    9 -> pos -= 1
+                                }
+                            }
+                        }
+                    }// fin when separador de lados
+
+                    // abajo 90, -270  // arriba -90, 270
+                    // izquierda 180, -180 // derecha 360, -360
+                    for (k in 0 until 1) {
+
+                        if (this.angle == 270 || this.angle == -90) { //arriba
+                            if (player.getMyTablero()[pos + (k * (-10))].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
+                        } else if (this.angle == -270 || this.angle == 90) { //abajo
+                            if (player.getMyTablero()[pos + (k * (10))].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
+                        } else if (this.angle == 180 || this.angle == -180) { //izquierda
+                            if (player.getMyTablero()[pos + (k * (-1))].isnave) {
+                                colocar.visibility = View.INVISIBLE
+                                break
+                            }
+                        } else {//derecha
                             if (player.getMyTablero()[pos + k].isnave) {
                                 colocar.visibility = View.INVISIBLE
                                 break
                             }
-                        }
-
-                        if (colocar.visibility != View.INVISIBLE) {
-                            items[pos + i++].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.crucero_1)
-                            items[pos + i].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.crucero_2)
-                        }
-                    } else {
-                        for (k in 0 until 2) {
-                            if (player.getMyTablero()[pos + k].isnave) {
-                                colocar.visibility = View.INVISIBLE
-                                break
-                            }
-                        }
-
-                        if (colocar.visibility != View.INVISIBLE) {
-                            items[pos].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.crucero_1)
-                            items[pos + 1].findViewById<ImageView>(R.id.itemmarnave)
-                                .setBackgroundResource(R.drawable.crucero_2)
                         }
                     }
-                }
+
+                    // 10 abajo -10 arriba 1 derecha -1 izquierda
+                    if (colocar.visibility != View.INVISIBLE) {
+                        items[pos].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.crucero_1)
+                        items[pos].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos].bg = R.drawable.crucero_1
+                        items[pos + a].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.crucero_2)
+                        items[pos + a].findViewById<ImageView>(R.id.itemmarnave)
+                            .rotation = this.angle.toFloat()
+                        player.getMyTablero()[pos + b].bg = R.drawable.crucero_2
+                    }// end draw permite
+                }//end C
                 "L" -> {
-                    items[pos].findViewById<ImageView>(R.id.itemmarnave)
-                        .setBackgroundResource(R.drawable.lancha_1)
+                    if (player.getMyTablero()[pos].isnave) {
+                        colocar.visibility = View.INVISIBLE
+                    }
+
+                    if (colocar.visibility != View.INVISIBLE) {
+                        items[pos].findViewById<ImageView>(R.id.itemmarnave)
+                            .setBackgroundResource(R.drawable.lancha_1)
+                        player.getMyTablero()[pos].bg = R.drawable.lancha_1
+                    }
                 }
             }//end tipo de nave
         }//if select nave
-        println("Final: $pos")
+
     }//fin fun move
 
 

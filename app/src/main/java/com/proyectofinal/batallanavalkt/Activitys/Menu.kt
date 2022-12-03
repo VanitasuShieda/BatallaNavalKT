@@ -3,6 +3,9 @@ package com.proyectofinal.batallanavalkt.Activitys
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import android.media.SoundPool
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -13,6 +16,7 @@ import android.view.WindowInsets
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
+import com.proyectofinal.batallanavalkt.R
 import com.proyectofinal.batallanavalkt.databinding.ActivityMenuBinding
 
 /**
@@ -24,8 +28,13 @@ class Menu : AppCompatActivity() {
     private lateinit var binding: ActivityMenuBinding
     private lateinit var fullscreenContent: TextView
     private var email = ""
+    private var nick = ""
     private lateinit var fullscreenContentControls: LinearLayout
     private val hideHandler = Handler(Looper.myLooper()!!)
+
+    private lateinit var audioAttributes: AudioAttributes
+    private lateinit var sp: SoundPool
+    private lateinit var mp: MediaPlayer
 
     @SuppressLint("InlinedApi")
     private val hidePart2Runnable = Runnable {
@@ -82,7 +91,20 @@ class Menu : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMenuBinding.inflate(layoutInflater)
-        intent.getStringExtra("User")?.let { email = it }
+
+        intent.getStringExtra("User").let { email = it.toString() }
+        intent.getStringExtra("Nick").let { nick = it.toString() }
+
+        audioAttributes =
+            AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+        sp = SoundPool.Builder().setMaxStreams(6).setAudioAttributes(audioAttributes).build()
+        mp = MediaPlayer.create(this, R.raw.menu)
+        mp.setVolume(0.5f, 0.5f)
+        mp.start()
+        mp.isLooping = true
+
         setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -101,25 +123,36 @@ class Menu : AppCompatActivity() {
         binding.dummyButton.setOnTouchListener(delayHideTouchListener)
 
         binding.btnplaygame.setOnClickListener {
-            startActivity(Intent(this, SoloGame::class.java))
+            val intent = Intent(this, SoloGame::class.java)
+            intent.putExtra("Nick", nick)
             intent.putExtra("User", email)
+            startActivity(intent)
+            mp.stop()
             finish()
         }
 
         binding.btnlogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut();
             startActivity(Intent(this, FullscreenActivity::class.java))
+            mp.stop()
             finish()
         }
 
         binding.btnprofile.setOnClickListener {
             val intent = Intent(this,UserInfo::class.java)
+            intent.putExtra("Nick", nick)
+            intent.putExtra("User", email)
             startActivity(intent)
+            mp.stop()
             finish()
         }
 
         binding.lobbybtn.setOnClickListener {
-            startActivity(Intent(this, Lobby::class.java))
+            val intent = Intent(this, Lobby::class.java)
+            intent.putExtra("Nick", nick)
+            intent.putExtra("User", email)
+            startActivity(intent)
+            mp.stop()
             finish()
         }
 

@@ -3,6 +3,10 @@ package com.proyectofinal.batallanavalkt.Activitys
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import android.media.SoundPool
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -12,7 +16,19 @@ import android.view.View
 import android.view.WindowInsets
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.proyectofinal.batallanavalkt.R
+import com.proyectofinal.batallanavalkt.adapters.gamesAdapter
 import com.proyectofinal.batallanavalkt.databinding.ActivityUserInfoBinding
+import com.proyectofinal.batallanavalkt.models.Gameplay
+import java.io.File
+import java.util.*
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -24,6 +40,15 @@ class UserInfo : AppCompatActivity() {
     private lateinit var fullscreenContent: TextView
     private lateinit var fullscreenContentControls: LinearLayout
     private val hideHandler = Handler(Looper.myLooper()!!)
+
+    private var nick = ""
+    private var user = ""
+
+    private var db = Firebase.firestore
+
+    private lateinit var mp: MediaPlayer
+    private lateinit var audioAttributes: AudioAttributes
+    private lateinit var sp: SoundPool
 
     @SuppressLint("InlinedApi")
     private val hidePart2Runnable = Runnable {
@@ -70,14 +95,32 @@ class UserInfo : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+
         super.onBackPressed()
-        startActivity(Intent(this, Menu::class.java))
+        var intent = Intent(this, Menu::class.java)
+        intent.putExtra("User", user)
+        intent.putExtra("Nick", nick)
+        startActivity(intent)
+        mp.stop()
         finish()
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        intent.getStringExtra("User")?.let { user = it }
+        intent.getStringExtra("Nick")?.let { nick = it }
+
+        audioAttributes =
+            AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+        sp = SoundPool.Builder().setMaxStreams(6).setAudioAttributes(audioAttributes).build()
+        mp = MediaPlayer.create(this, R.raw.user)
+        mp.setVolume(0.5f, 0.5f)
+        mp.start()
+        mp.isLooping = true
 
         binding = ActivityUserInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -96,6 +139,73 @@ class UserInfo : AppCompatActivity() {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         binding.dummyButton.setOnTouchListener(delayHideTouchListener)
+
+
+
+
+        binding.recyclergames.layoutManager = LinearLayoutManager(this)
+        binding.recyclergames.adapter = gamesAdapter()
+
+        val gamesRef = db.collection("users").document(user)
+
+        gamesRef.collection("Multiplayergames").orderBy("dob", Query.Direction.ASCENDING)
+            .get()
+            .addOnSuccessListener { game ->
+                val listGames = game.toObjects(Gameplay::class.java)
+                (binding.recyclergames.adapter as gamesAdapter).setData(listGames)
+            }
+
+        gamesRef.collection("Multiplayergames").orderBy("dob", Query.Direction.ASCENDING)
+            .addSnapshotListener { game, error ->
+                if(error == null){
+                    game?.let {
+                        val listGames = it.toObjects(Gameplay::class.java)
+                        (binding.recyclergames.adapter as gamesAdapter).setData(listGames)
+                    }
+                }
+            }
+
+
+        gamesRef.get().addOnSuccessListener {
+            if(it != null){
+                binding.usernick.text = nick
+                binding.useremail.text = user
+                binding.solowins.text  = it["wins"].toString()
+                binding.soloLose.text  = it["loses"].toString()
+                binding.MultiLose.text  = it["losespvp"].toString()
+                binding.MultiWins.text  = it["winspvp"].toString()
+            }
+        }
+
+        var mStorage = FirebaseStorage.getInstance()
+        var mReference = mStorage.reference
+
+        val imgRef = mReference.child("images/$user")
+        val localfile = File.createTempFile("tempImg","jpg")
+
+        imgRef.getFile(localfile).addOnSuccessListener {
+            var bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+            val options = RequestOptions()
+            options.centerCrop().fitCenter()
+            Glide.with(this).load(bitmap).apply(options).into(binding.avatar)
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

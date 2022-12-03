@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tablero"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bgmenuall"
+    android:theme="@style/ThemeOverlay.BatallaNavalKT.FullscreenContainer"
+    android:visibility="visible"
+    tools:context=".dialogs.DialogSelectCuadrante">
+
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/p1"
+            android:layout_width="29dp"
+            android:layout_height="11dp"
+            android:layout_marginStart="21dp"
+            android:fontFamily="@font/mika"
+            android:text="1"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/p2"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="2"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p1" />
+
+        <TextView
+            android:id="@+id/p3"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="3"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p2" />
+
+        <TextView
+            android:id="@+id/p4"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="4"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p3" />
+
+        <TextView
+            android:id="@+id/p5"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="5"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p4" />
+
+        <TextView
+            android:id="@+id/p6"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="6"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p5" />
+
+        <TextView
+            android:id="@+id/p7"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="7"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p6" />
+
+        <TextView
+            android:id="@+id/p8"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="8"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p7" />
+
+        <TextView
+            android:id="@+id/p9"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="9"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p8" />
+
+        <TextView
+            android:id="@+id/p10"
+            android:layout_width="29dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/mika"
+            android:text="10"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/p9" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recView_mytab"
+            android:layout_width="300dp"
+            android:layout_height="280dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/bgmar"
+            app:layout_constraintHorizontal_bias="0.892"
+            app:layout_constraintStart_toStartOf="@+id/p1"
+            app:layout_constraintTop_toBottomOf="@+id/p2"
+            app:layout_constraintVertical_bias="0.0"></androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id='@+id/l1'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='A'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/p1' />'
+
+        <TextView
+            android:id='@+id/l2'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='B'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l1' />'
+
+        <TextView
+            android:id='@+id/l3'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='C'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l2' />'
+
+        <TextView
+            android:id='@+id/l4'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='D'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l3' />'
+
+        <TextView
+            android:id='@+id/l5'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='E'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l4' />'
+
+        <TextView
+            android:id='@+id/l6'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='F'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l5' />'
+
+        <TextView
+            android:id='@+id/l7'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='G'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l6' />'
+
+        <TextView
+            android:id='@+id/l8'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='H'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l7' />'
+
+        <TextView
+            android:id='@+id/l9'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='I'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l8' />'
+
+        <TextView
+            android:id='@+id/l10'
+            android:layout_width='11dp'
+            android:layout_height='27dp'
+            android:layout_marginTop='1dp'
+            android:fontFamily='@font/mika'
+            android:gravity='center'
+            android:text='J'
+            android:textColor='@color/white'
+            app:layout_constraintEnd_toStartOf='@+id/p1'
+            app:layout_constraintTop_toBottomOf='@+id/l9' />'
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

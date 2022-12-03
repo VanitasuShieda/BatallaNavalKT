@@ -3,6 +3,7 @@ package com.proyectofinal.batallanavalkt.Activitys
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
@@ -13,6 +14,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowInsets
 import android.widget.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -24,6 +27,7 @@ import com.proyectofinal.batallanavalkt.databinding.DialogRegisterBinding
 import com.proyectofinal.batallanavalkt.dialogs.dialogLogin
 import com.proyectofinal.batallanavalkt.dialogs.dialogRegister
 import com.proyectofinal.batallanavalkt.models.User
+import java.io.File
 import java.util.*
 
 /**
@@ -153,10 +157,7 @@ class FullscreenActivity : AppCompatActivity(), dialogLogin.dialogLoginListener,
 
         loginbtn.setOnClickListener{
             val loginDialog = dialogLogin()
-
-
             loginDialog.show(supportFragmentManager, "anadir dialog")
-
         }
 
 
@@ -193,11 +194,22 @@ class FullscreenActivity : AppCompatActivity(), dialogLogin.dialogLoginListener,
     private fun checkUser() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            val intent = Intent(this, Menu::class.java)
-            intent.putExtra("User", currentUser.email)
-            musicPlay.stop()
-            startActivity(intent)
-            finish()
+            val ref = db.collection("users").document(currentUser.email.toString()).get()
+            ref.addOnSuccessListener { document ->
+                if (document != null) {
+                    val intent = Intent(this, Menu::class.java)
+                    intent.putExtra("Nick", document.data?.get("nick").toString())
+                    intent.putExtra("User", currentUser.email.toString())
+                    musicPlay.stop()
+                    startActivity(intent)
+                    finish()
+                } else {
+                    println("Este es print de error")
+                }
+            }.addOnFailureListener { exeption ->
+                println(exeption)
+            }
+
         }
     }
 
